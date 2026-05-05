@@ -12,7 +12,10 @@
 
   <nav class="navbar">
     <a href="/pages/home/" class="navbar__logo">Ali AlSharif</a>
-    <ul class="navbar__links">
+    <button class="navbar__burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="navbar__links" id="navLinks">
       <li><a href="/pages/home/#services" data-i18n="nav.services">Services</a></li>
       <li><a href="/pages/home/#about" data-i18n="nav.about">About</a></li>
       <li><a href="/pages/home/#insights" data-i18n="nav.blog">Blog</a></li>
@@ -79,6 +82,20 @@
 
   <script src="/shared/js/theme.js"></script>
   <script src="/shared/js/lang.js"></script>
+  <script>
+    (function(){
+      var b=document.getElementById('navBurger'),n=document.getElementById('navLinks');
+      if(!b||!n)return;
+      b.addEventListener('click',function(){
+        var open=n.classList.toggle('navbar__links--open');
+        b.classList.toggle('navbar__burger--open',open);
+        b.setAttribute('aria-expanded',open);
+      });
+      n.addEventListener('click',function(e){
+        if(e.target.tagName==='A'){n.classList.remove('navbar__links--open');b.classList.remove('navbar__burger--open');b.setAttribute('aria-expanded','false');}
+      });
+    })();
+  </script>
   <script src="video_studio.js" type="module"></script>
 </body>
 </html>
