@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add System — Manager</title>
+  <link rel="stylesheet" href="add_system.css" />
+  <script>(function(){const t=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
+</head>
+<body>
+
+  <nav class="topbar">
+    <div class="topbar__left">
+      <span class="topbar__logo">Manager Panel</span>
+      <span class="topbar__sub">Ali AlSharif</span>
+    </div>
+    <div class="topbar__right">
+      <a href="/pages/manager/dashboard/" class="topbar__back-link">← Dashboard</a>
+      <button class="btn btn--ghost" id="signOutBtn">Sign Out</button>
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark theme">
+        <svg class="theme-toggle__icon theme-toggle__icon--moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="theme-toggle__icon theme-toggle__icon--sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar__profile">
+        <div class="sidebar__avatar"><img src="/assets/images/placeholders/ali.png" alt="Ali AlSharif" /></div>
+        <div class="sidebar__profile-info">
+          <span class="sidebar__name">Ali AlSharif</span>
+          <span class="sidebar__role">Content Manager</span>
+        </div>
+      </div>
+
+      <nav class="sidebar__nav">
+        <p class="sidebar__nav-label">Content</p>
+
+        <a href="/pages/manager/add_photo/" class="nav-card">
+          <span class="nav-card__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </span>
+          <div class="nav-card__text">
+            <span class="nav-card__title">Add Photo</span>
+            <span class="nav-card__desc">Upload AI images</span>
+          </div>
+          <svg class="nav-card__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+
+        <a href="/pages/manager/add_video/" class="nav-card">
+          <span class="nav-card__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          </span>
+          <div class="nav-card__text">
+            <span class="nav-card__title">Add Video</span>
+            <span class="nav-card__desc">Publish AI videos</span>
+          </div>
+          <svg class="nav-card__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+
+        <a href="/pages/manager/add_blog/" class="nav-card">
+          <span class="nav-card__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </span>
+          <div class="nav-card__text">
+            <span class="nav-card__title">Add Blog</span>
+            <span class="nav-card__desc">Write insights</span>
+          </div>
+          <svg class="nav-card__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+
+        <a href="/pages/manager/add_system/" class="nav-card nav-card--active">
+          <span class="nav-card__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </span>
+          <div class="nav-card__text">
+            <span class="nav-card__title">Add System</span>
+            <span class="nav-card__desc">Showcase projects</span>
+          </div>
+          <svg class="nav-card__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <div class="main__header">
+        <h1 class="main__title">Add System Project</h1>
+        <p class="main__subtitle">Showcase a new smart system or website.</p>
+      </div>
+
+      <form class="post-form" id="systemForm" novalidate>
+
+        <!-- COVER IMAGE -->
+        <div class="form-section">
+          <label class="form-label">Cover Image <span class="required">*</span></label>
+          <div class="image-upload" id="imageUpload">
+            <input type="file" id="imageInput" accept="image/*" hidden />
+            <div class="image-upload__placeholder" id="imagePlaceholder">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              <span>Click or drag & drop to upload</span>
+              <span class="image-upload__hint">JPG, PNG, WEBP — 800×500, up to 10 MB</span>
+            </div>
+            <img class="image-upload__preview" id="imagePreview" alt="Cover preview" />
+            <button type="button" class="image-upload__remove" id="imageRemove" hidden>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Remove
+            </button>
+          </div>
+          <span class="file-info" id="fileInfo"></span>
+        </div>
+
+        <!-- TITLE -->
+        <div class="form-section">
+          <label class="form-label" for="systemTitle">Project Title <span class="required">*</span></label>
+          <input class="form-input" type="text" id="systemTitle" name="title" placeholder="e.g. AI Content Creator Portfolio" maxlength="80" required />
+          <span class="char-count" id="titleCount">0 / 80</span>
+        </div>
+
+        <!-- CATEGORY -->
+        <div class="form-section">
+          <label class="form-label">Category <span class="required">*</span></label>
+          <div class="tag-selector" id="tagSelector">
+            <button type="button" class="tag-btn" data-tag="ai-systems">AI Systems</button>
+            <button type="button" class="tag-btn" data-tag="websites">Websites</button>
+            <button type="button" class="tag-btn" data-tag="dashboards">Dashboards</button>
+          </div>
+          <input type="hidden" id="selectedTag" name="category" />
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="form-section">
+          <label class="form-label" for="systemDesc">Description <span class="required">*</span></label>
+          <textarea class="form-textarea" id="systemDesc" name="description" placeholder="Describe what the system does and the problem it solves." maxlength="300" required></textarea>
+          <span class="char-count" id="descCount">0 / 300</span>
+        </div>
+
+        <!-- TECH TAGS -->
+        <div class="form-section">
+          <label class="form-label">Tech Tags</label>
+          <div class="tech-tags-input">
+            <div class="tech-tags-list" id="techTagsList"></div>
+            <div class="tech-tags-row">
+              <input class="form-input tech-tag-field" type="text" id="techTagInput" placeholder="e.g. Firebase, GPT-4, React…" maxlength="30" />
+              <button type="button" class="btn btn--add" id="addTagBtn">Add</button>
+            </div>
+          </div>
+          <span class="form-hint">Press Enter or click Add — up to 8 tags</span>
+        </div>
+
+        <!-- WEBSITE LINK -->
+        <div class="form-section">
+          <label class="form-label" for="systemLink">Website Link <span class="optional">(optional)</span></label>
+          <div class="input-with-icon">
+            <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            <input class="form-input form-input--icon" type="url" id="systemLink" name="link" placeholder="https://example.com" />
+          </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="form-actions">
+          <button type="button" class="btn btn--ghost" id="clearBtn">Clear</button>
+          <button type="submit" class="btn btn--primary" id="submitBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+            Publish System
+          </button>
+        </div>
+
+        <div class="form-toast" id="formToast" hidden></div>
+
+      </form>
+    </main>
+
+  </div>
+
+  <script src="/shared/js/theme.js"></script>
+  <script src="add_system.js" type="module"></script>
+</body>
+</html>

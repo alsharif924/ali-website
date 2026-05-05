@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(@\\(\"c:\\\\Projects\\\\takhayal_website\\\\index.html\", \"c:\\\\Projects\\\\takhayal_website\\\\shared\\\\js\\\\firebase-config.js\", \"c:\\\\Projects\\\\takhayal_website\\\\shared\\\\js\\\\constants.js\"\\) | ForEach-Object { Write-Host \"$\\($_\\): $\\(Get-Item $_\\).Length bytes\" })",
+      "PowerShell(\\(Get-Item \"c:\\\\Projects\\\\takhayal_website\\\\index.html\"\\).Length; \\(Get-Item \"c:\\\\Projects\\\\takhayal_website\\\\shared\\\\js\\\\firebase-config.js\"\\).Length; \\(Get-Item \"c:\\\\Projects\\\\takhayal_website\\\\shared\\\\js\\\\constants.js\"\\).Length)"
+    ]
+  }
+}

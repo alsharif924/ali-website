@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Video Studio — Ali AlSharif</title>
+  <link rel="stylesheet" href="video_studio.css" />
+  <script>(function(){const t=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
+  <script>(function(){var l=localStorage.getItem('lang');if(l==='ar'||l==='he'){document.documentElement.dir='rtl';document.documentElement.lang=l;}})();</script>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="/pages/home/" class="navbar__logo">Ali AlSharif</a>
+    <ul class="navbar__links">
+      <li><a href="/pages/home/#services" data-i18n="nav.services">Services</a></li>
+      <li><a href="/pages/home/#about" data-i18n="nav.about">About</a></li>
+      <li><a href="/pages/home/#insights" data-i18n="nav.blog">Blog</a></li>
+      <li><a href="/pages/home/#contact" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark theme">
+      <svg class="theme-toggle__icon theme-toggle__icon--moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="theme-toggle__icon theme-toggle__icon--sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <div class="lang-switcher"></div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="page-hero__content">
+      <span class="page-hero__label" data-i18n="video.label">AI Video Studio</span>
+      <h1 class="page-hero__title" data-i18n="video.title">AI Videos That<br>Feel Completely Real</h1>
+      <p class="page-hero__subtitle" data-i18n="video.subtitle">A collection of AI-generated videos built with precise creative direction — intimate portraits, wide cinematic shots, and commercial reels, all produced entirely through AI.</p>
+    </div>
+  </section>
+
+  <section class="video-section">
+    <div class="video-filters">
+      <button class="filter-btn filter-btn--active" data-filter="all" data-i18n="video.filter.all">All</button>
+      <button class="filter-btn" data-filter="realistic" data-i18n="video.filter.realistic">Realistic</button>
+      <button class="filter-btn" data-filter="anime" data-i18n="video.filter.anime">Anime</button>
+      <button class="filter-btn" data-filter="marketing" data-i18n="video.filter.marketing">Marketing</button>
+      <button class="filter-btn" data-filter="cinematic" data-i18n="video.filter.cinematic">Cinematic</button>
+    </div>
+
+    <div class="video-grid" id="videoGrid"></div>
+  </section>
+
+  <!-- MODAL -->
+  <div class="modal" id="videoModal" aria-hidden="true">
+    <div class="modal__backdrop" id="modalBackdrop"></div>
+    <div class="modal__box">
+      <button class="modal__close" id="modalClose" aria-label="Close">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal__player" id="modalPlayer"></div>
+      <div class="modal__info">
+        <span class="modal__tag" id="modalTag"></span>
+        <h3 class="modal__title" id="modalTitle"></h3>
+        <p class="modal__desc" id="modalDesc"></p>
+      </div>
+    </div>
+  </div>
+  <style>
+    .modal__info{padding:14px 20px 22px;}
+    .modal__tag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#7fb3ff;background:rgba(59,107,220,.2);padding:3px 10px;border-radius:20px;margin-bottom:8px;}
+    .modal__desc{color:rgba(255,255,255,.62);font-size:.88rem;line-height:1.65;margin-top:6px;}
+  </style>
+
+  <footer class="footer">
+    <div class="footer__left">
+      <span class="footer__logo">Ali AlSharif</span>
+      <span class="footer__tagline" data-i18n="footer.tagline">Creating tomorrow's visuals with today's AI.</span>
+      <span class="footer__copy" data-i18n="footer.copy">© 2026 Ali AlSharif. All rights reserved.</span>
+    </div>
+    <div class="footer__right">
+      <a href="#" data-i18n="footer.terms">Terms of Service</a>
+    </div>
+  </footer>
+
+  <script src="/shared/js/theme.js"></script>
+  <script src="/shared/js/lang.js"></script>
+  <script src="video_studio.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Image Studio — Ali AlSharif</title>
+  <link rel="stylesheet" href="gallery.css" />
+  <script>(function(){const t=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
+  <script>(function(){var l=localStorage.getItem('lang');if(l==='ar'||l==='he'){document.documentElement.dir='rtl';document.documentElement.lang=l;}})();</script>
+  <style>
+    .lightbox__details{padding:16px 24px 22px;background:rgba(0,0,0,.55);}
+    .lightbox__tag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#7fb3ff;background:rgba(59,107,220,.2);padding:3px 10px;border-radius:20px;margin-bottom:8px;}
+    .lightbox__desc{color:rgba(255,255,255,.62);font-size:.88rem;line-height:1.65;margin-top:6px;}
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="/pages/home/" class="navbar__logo">Ali AlSharif</a>
+    <ul class="navbar__links">
+      <li><a href="/pages/home/#services" data-i18n="nav.services">Services</a></li>
+      <li><a href="/pages/home/#about" data-i18n="nav.about">About</a></li>
+      <li><a href="/pages/home/#insights" data-i18n="nav.blog">Blog</a></li>
+      <li><a href="/pages/home/#contact" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark theme">
+      <svg class="theme-toggle__icon theme-toggle__icon--moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="theme-toggle__icon theme-toggle__icon--sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <div class="lang-switcher"></div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="page-hero__content">
+      <span class="page-hero__label" data-i18n="gallery.label">AI Image Studio</span>
+      <h1 class="page-hero__title" data-i18n="gallery.title">AI Images That<br>Stop You Cold</h1>
+      <p class="page-hero__subtitle" data-i18n="gallery.subtitle">Every image here was produced using advanced AI generation — no cameras, no stock photos. Just creative direction, precise prompting, and machine intelligence working together.</p>
+    </div>
+  </section>
+
+  <section class="gallery-section">
+    <div class="gallery-filters">
+      <button class="filter-btn filter-btn--active" data-filter="all" data-i18n="gallery.filter.all">All</button>
+      <button class="filter-btn" data-filter="portrait" data-i18n="gallery.filter.portrait">Portrait</button>
+      <button class="filter-btn" data-filter="landscape" data-i18n="gallery.filter.landscape">Landscape</button>
+      <button class="filter-btn" data-filter="concept" data-i18n="gallery.filter.concept">Concept</button>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox__close" id="lightboxClose" aria-label="Close">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="lightbox__inner">
+      <img class="lightbox__img" id="lightboxImg" src="" alt="" />
+      <div class="lightbox__details">
+        <span class="lightbox__tag" id="lightboxTag"></span>
+        <p class="lightbox__title" id="lightboxTitle"></p>
+        <p class="lightbox__desc" id="lightboxDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__left">
+      <span class="footer__logo">Ali AlSharif</span>
+      <span class="footer__tagline" data-i18n="footer.tagline">Creating tomorrow's visuals with today's AI.</span>
+      <span class="footer__copy" data-i18n="footer.copy">© 2026 Ali AlSharif. All rights reserved.</span>
+    </div>
+    <div class="footer__right">
+      <a href="#" data-i18n="footer.terms">Terms of Service</a>
+    </div>
+  </footer>
+
+  <script src="/shared/js/theme.js"></script>
+  <script src="/shared/js/lang.js"></script>
+  <script src="gallery.js" type="module"></script>
+</body>
+</html>

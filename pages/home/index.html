@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ali AlSharif — AI Creative Studio</title>
+  <link rel="stylesheet" href="home.css" />
+  <script>(function(){const t=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
+  <script>(function(){var l=localStorage.getItem('lang');if(l==='ar'||l==='he'){document.documentElement.dir='rtl';document.documentElement.lang=l;}})();</script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="/" class="navbar__logo">Ali AlSharif</a>
+    <ul class="navbar__links">
+      <li><a href="#services" data-i18n="nav.services">Services</a></li>
+      <li><a href="#about" data-i18n="nav.about">About</a></li>
+      <li><a href="#insights" data-i18n="nav.blog">Blog</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark theme">
+      <svg class="theme-toggle__icon theme-toggle__icon--moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="theme-toggle__icon theme-toggle__icon--sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <div class="lang-switcher"></div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__content">
+      <h1 class="hero__title" data-i18n="home.hero.title">Turning Ideas Into<br>AI-Powered Reality</h1>
+      <p class="hero__subtitle" data-i18n="home.hero.subtitle">
+        I create AI-generated images, cinematic videos, and intelligent websites —<br>
+        helping brands and individuals express their vision through artificial intelligence.
+      </p>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <h2 class="section__title" data-i18n="home.services.title">Our Services</h2>
+    <p class="section__subtitle" data-i18n="home.services.subtitle">Cutting-edge AI solutions engineered for precision, speed, and scalability.</p>
+    <div class="services__grid">
+
+      <a href="/pages/gallery/" class="service-card">
+        <div class="service-card__image">
+          <img src="../../assets/images/placeholders/image_thumnail.jpg" alt="AI Image Studio" />
+        </div>
+        <div class="service-card__body">
+          <span class="service-card__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </span>
+          <h3 class="service-card__title" data-i18n="home.service.image.title">AI Image Studio</h3>
+          <p class="service-card__text" data-i18n="home.service.image.text">Generate stunning, high-fidelity images with advanced AI models trained on artistic and photorealistic styles.</p>
+        </div>
+      </a>
+
+      <a href="/pages/video_studio/" class="service-card">
+        <div class="service-card__image">
+          <img src="../../assets/images/placeholders/video_thumnail.jpg" alt="AI Video Studio" />
+        </div>
+        <div class="service-card__body">
+          <span class="service-card__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          </span>
+          <h3 class="service-card__title" data-i18n="home.service.video.title">AI Video Studio</h3>
+          <p class="service-card__text" data-i18n="home.service.video.text">Produce cinematic AI-generated videos with seamless motion, precise control, and production-grade output quality.</p>
+        </div>
+      </a>
+
+      <a href="/pages/smart_systems/" class="service-card">
+        <div class="service-card__image">
+          <img src="../../assets/images/placeholders/system_thumnail.jpg" alt="Smart Systems & Websites" />
+        </div>
+        <div class="service-card__body">
+          <span class="service-card__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </span>
+          <h3 class="service-card__title" data-i18n="home.service.systems.title">Smart Systems & Websites</h3>
+          <p class="service-card__text" data-i18n="home.service.systems.text">Build intelligent, AI-powered systems and websites that automate workflows and deliver superior user experiences.</p>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about__text">
+      <h2 class="about__title" data-i18n="home.about.title">About Ali AlSharif</h2>
+      <p data-i18n="home.about.p1">I'm Ali AlSharif — an AI creative professional passionate about the intersection of technology and visual storytelling. I work with brands, creators, and businesses to bring bold ideas to life using the latest generative AI tools.</p>
+      <p data-i18n="home.about.p2">Whether it's a photorealistic portrait, a cinematic video sequence, or a custom smart website — I focus on quality, speed, and creative precision. Every project is built with intention, not just automation.</p>
+    </div>
+    <div class="about__image">
+      <img src="../../assets/images/placeholders/ali.png" alt="Ali AlSharif" />
+    </div>
+  </section>
+
+  <!-- INSIGHTS -->
+  <section class="insights" id="insights">
+    <div class="insights__header">
+      <div>
+        <h2 class="section__title insights__section-title" data-i18n="home.insights.title">Latest Insights</h2>
+        <p class="section__subtitle" data-i18n="home.insights.subtitle">Thoughts on AI creativity, workflows, and what's coming next.</p>
+      </div>
+      <div class="insights__nav">
+        <button class="insights__nav-btn" id="prevBtn" aria-label="Previous">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="insights__nav-btn" id="nextBtn" aria-label="Next">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="insights__track-wrapper">
+      <div class="insights__track" id="insightsTrack"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact__card">
+      <h2 class="contact__title" data-i18n="home.contact.title">Get in Touch</h2>
+      <p class="contact__subtitle" data-i18n="home.contact.subtitle">Have a project in mind? I'd love to hear about it. Reach out on WhatsApp, Instagram, or Facebook — I respond quickly.</p>
+      <div class="contact__socials">
+        <a href="https://wa.me/972597510314" target="_blank" rel="noopener noreferrer" class="contact__social-link contact__social-link--wa" aria-label="WhatsApp">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/ali_sharif.22?igsh=OHpqbGZra3JocHAy" target="_blank" rel="noopener noreferrer" class="contact__social-link contact__social-link--ig" aria-label="Instagram">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="https://www.facebook.com/share/1CUg1ytePu/" target="_blank" rel="noopener noreferrer" class="contact__social-link contact__social-link--fb" aria-label="Facebook">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOG DETAIL MODAL -->
+  <div class="blog-modal" id="blogModal" aria-hidden="true">
+    <div class="blog-modal__backdrop" id="blogModalBackdrop"></div>
+    <div class="blog-modal__box">
+      <button class="blog-modal__close" id="blogModalClose" aria-label="Close">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="blog-modal__cover" id="blogModalCover"></div>
+      <div class="blog-modal__info">
+        <span class="blog-modal__tag" id="blogModalTag"></span>
+        <h2 class="blog-modal__title" id="blogModalTitle"></h2>
+        <p class="blog-modal__summary" id="blogModalSummary"></p>
+        <div class="blog-modal__content" id="blogModalContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .blog-modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;transition:opacity .25s,visibility .25s;}
+    .blog-modal.open{visibility:visible;opacity:1;}
+    .blog-modal__backdrop{position:absolute;inset:0;background:rgba(10,15,30,.75);backdrop-filter:blur(6px);}
+    .blog-modal__box{position:relative;z-index:1;background:#fff;border-radius:18px;width:min(680px,92vw);max-height:88vh;overflow-y:auto;}
+    [data-theme="dark"] .blog-modal__box{background:#161d35;}
+    .blog-modal__close{position:absolute;top:14px;right:14px;z-index:2;background:rgba(0,0,0,.45);border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;}
+    .blog-modal__cover{width:100%;aspect-ratio:2/1;background-size:cover;background-position:center;border-radius:18px 18px 0 0;background-color:#e8eef8;}
+    .blog-modal__info{padding:24px 28px 36px;}
+    .blog-modal__tag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#3b6bdc;background:rgba(59,107,220,.12);padding:3px 10px;border-radius:20px;margin-bottom:12px;}
+    .blog-modal__title{font-size:1.5rem;font-weight:700;color:#0d1b3e;margin:0 0 12px;line-height:1.3;}
+    [data-theme="dark"] .blog-modal__title{color:#f0f4ff;}
+    .blog-modal__summary{font-size:.95rem;color:#6b7a99;line-height:1.65;margin:0 0 20px;font-style:italic;border-left:3px solid #3b6bdc;padding-left:12px;}
+    .blog-modal__content{font-size:.92rem;color:#2c3a5a;line-height:1.8;}
+    [data-theme="dark"] .blog-modal__content{color:#c5d0e8;}
+    .blog-modal__content p{margin:0 0 16px;}
+  </style>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__left">
+      <span class="footer__logo">Ali AlSharif</span>
+      <span class="footer__tagline" data-i18n="footer.tagline">Creating tomorrow's visuals with today's AI.</span>
+      <span class="footer__copy" data-i18n="footer.copy">© 2026 Ali AlSharif. All rights reserved.</span>
+    </div>
+    <div class="footer__right">
+      <a href="#" data-i18n="footer.terms">Terms of Service</a>
+    </div>
+  </footer>
+
+  <script src="/shared/js/theme.js"></script>
+  <script src="/shared/js/lang.js"></script>
+  <script src="home.js" type="module"></script>
+</body>
+</html>
