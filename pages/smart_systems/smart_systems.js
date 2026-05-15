@@ -1,8 +1,9 @@
 import { db } from '../../shared/js/firebase-config.js';
 import { collection, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { getCategories, renderFilterButtons, labelOf } from '../../shared/js/categories.js';
 
 const systemsGrid    = document.getElementById('systemsGrid');
-const filterBtns     = document.querySelectorAll('.systems-filters .filter-btn');
+const filtersEl      = document.querySelector('.systems-filters');
 const sysModal       = document.getElementById('sysModal');
 const sysModalClose  = document.getElementById('sysModalClose');
 const sysModalBdrop  = document.getElementById('sysModalBackdrop');
@@ -15,15 +16,14 @@ const sysModalLink   = document.getElementById('sysModalLink');
 
 let activeFilter = 'all';
 let items = [];
+let tagToLabel = new Map();
 
-const TAG_LABELS = {
-  'ai-systems':  'AI Systems',
-  'websites':    'Websites',
-  'dashboards':  'Dashboards',
-};
+function tagLabel(slug) {
+  return tagToLabel.get(slug) || slug || '';
+}
 
 function buildCard(item) {
-  const label    = TAG_LABELS[item.tag] || item.tag;
+  const label    = tagLabel(item.tag);
   const tagsHtml = (item.techTags || []).map(t => `<span>${t}</span>`).join('');
   return `<div class="system-card" data-category="${item.tag}" style="cursor:pointer;">
     <div class="system-card__image">
@@ -45,16 +45,13 @@ function applyFilter(filter) {
   });
 }
 
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterBtns.forEach(b => b.classList.remove('filter-btn--active'));
-    btn.classList.add('filter-btn--active');
-    applyFilter(btn.dataset.filter);
-  });
-});
+async function refreshTagToLabel() {
+  const cats = await getCategories('systems');
+  tagToLabel = new Map(cats.map(c => [c.slug, labelOf(c)]));
+}
 
 function openSysModal(item) {
-  const label = TAG_LABELS[item.tag] || item.tag;
+  const label = tagLabel(item.tag);
   sysModalImg.src = item.coverUrl;
   sysModalImg.alt = item.title;
   sysModalTag.textContent   = label;
@@ -88,7 +85,18 @@ sysModalClose.addEventListener('click', closeSysModal);
 sysModalBdrop.addEventListener('click', closeSysModal);
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSysModal(); });
 
+document.addEventListener('langchange', async () => {
+  await refreshTagToLabel();
+  if (items.length) {
+    systemsGrid.innerHTML = items.map(buildCard).join('');
+    applyFilter(activeFilter);
+    bindCards();
+  }
+});
+
 async function loadSystems() {
+  await refreshTagToLabel();
+  await renderFilterButtons(filtersEl, 'systems', { onChange: applyFilter, allKey: 'systems.filter.all' });
   const snap = await getDocs(query(collection(db, 'systems'), orderBy('createdAt', 'desc')));
   if (snap.empty) {
     systemsGrid.innerHTML = '<p class="gallery-empty">No systems yet.</p>';

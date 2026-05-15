@@ -1,9 +1,11 @@
 import { db } from '../../shared/js/firebase-config.js';
 import { collection, getDocs, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { getCategories, renderFilterButtons, labelOf } from '../../shared/js/categories.js';
 
 const track   = document.getElementById('insightsTrack');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
+const insightsFilters = document.getElementById('insightsFilters');
 
 const blogModal        = document.getElementById('blogModal');
 const blogModalClose   = document.getElementById('blogModalClose');
@@ -15,7 +17,14 @@ const blogModalSummary = document.getElementById('blogModalSummary');
 const blogModalContent = document.getElementById('blogModalContent');
 
 let currentIndex = 0;
+let allInsights = [];
 let insightItems = [];
+let activeFilter = 'all';
+let tagToLabel = new Map();
+
+function tagLabel(slug) {
+  return tagToLabel.get(slug) || slug || '';
+}
 
 function getVisibleCount() {
   return window.innerWidth <= 600 ? 1 : 2;
@@ -45,7 +54,7 @@ window.addEventListener('resize', () => { currentIndex = Math.min(currentIndex, 
 
 function openBlogModal(item) {
   blogModalCover.style.backgroundImage = item.coverUrl ? `url('${item.coverUrl}')` : '';
-  blogModalTag.textContent     = item.tag;
+  blogModalTag.textContent     = tagLabel(item.tag);
   blogModalTitle.textContent   = item.title;
   blogModalSummary.textContent = item.summary || '';
   blogModalContent.innerHTML   = '';
@@ -81,24 +90,50 @@ function buildInsightCard(item) {
   return `<article class="insight-card" style="cursor:pointer;">
     <div class="insight-card__image" ${bgStyle}></div>
     <div class="insight-card__body">
-      <span class="insight-card__tag">${item.tag}</span>
+      <span class="insight-card__tag">${tagLabel(item.tag)}</span>
       <h3 class="insight-card__title">${item.title}</h3>
       <p class="insight-card__text">${item.summary || ''}</p>
     </div>
   </article>`;
 }
 
-async function loadInsights() {
-  const snap = await getDocs(query(collection(db, 'blogs'), orderBy('createdAt', 'desc'), limit(6)));
-  if (!snap.empty) {
-    insightItems = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    track.innerHTML = insightItems.map(buildInsightCard).join('');
-    track.querySelectorAll('.insight-card').forEach((el, i) => {
-      el.addEventListener('click', () => openBlogModal(insightItems[i]));
-    });
-  }
+function renderTrack() {
+  insightItems = activeFilter === 'all' ? allInsights : allInsights.filter(i => i.tag === activeFilter);
+  track.innerHTML = insightItems.map(buildInsightCard).join('');
+  track.querySelectorAll('.insight-card').forEach((el, i) => {
+    el.addEventListener('click', () => openBlogModal(insightItems[i]));
+  });
   currentIndex = 0;
   updateTrack();
+}
+
+function applyInsightFilter(slug) {
+  activeFilter = slug;
+  renderTrack();
+}
+
+async function refreshTagToLabel() {
+  const cats = await getCategories('blogs');
+  tagToLabel = new Map(cats.map(c => [c.slug, labelOf(c)]));
+}
+
+document.addEventListener('langchange', async () => {
+  await refreshTagToLabel();
+  renderTrack();
+});
+
+async function loadInsights() {
+  await refreshTagToLabel();
+  if (insightsFilters) {
+    await renderFilterButtons(insightsFilters, 'blogs', { onChange: applyInsightFilter, allKey: 'blogs.filter.all' });
+  }
+  const snap = await getDocs(query(collection(db, 'blogs'), orderBy('createdAt', 'desc'), limit(24)));
+  if (!snap.empty) {
+    allInsights = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderTrack();
+  } else {
+    updateTrack();
+  }
 }
 
 loadInsights();

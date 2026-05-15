@@ -37,27 +37,19 @@
       'gallery.title':            'AI Images That\nStop You Cold',
       'gallery.subtitle':         'Every image here was produced using advanced AI generation — no cameras, no stock photos. Just creative direction, precise prompting, and machine intelligence working together.',
       'gallery.filter.all':       'All',
-      'gallery.filter.portrait':  'Portrait',
-      'gallery.filter.landscape': 'Landscape',
-      'gallery.filter.concept':   'Concept',
       /* video studio */
       'video.label':            'AI Video Studio',
       'video.title':            'AI Videos That\nFeel Completely Real',
       'video.subtitle':         'A collection of AI-generated videos built with precise creative direction — intimate portraits, wide cinematic shots, and commercial reels, all produced entirely through AI.',
       'video.filter.all':       'All',
-      'video.filter.realistic': 'Realistic',
-      'video.filter.anime':     'Anime',
-      'video.filter.marketing': 'Marketing',
-      'video.filter.cinematic': 'Cinematic',
       /* smart systems */
       'systems.label':            'Smart Systems & Websites',
       'systems.title':            'Smart Digital Products,\nBuilt From Scratch',
       'systems.subtitle':         'Custom websites and intelligent systems designed to actually work for you — not just look good. Built with modern technology, AI integration, and real attention to detail.',
       'systems.filter.all':       'All',
-      'systems.filter.ai':        'AI Systems',
-      'systems.filter.websites':  'Websites',
-      'systems.filter.dashboards':'Dashboards',
       'systems.modal.view':       'View Project →',
+      /* blogs */
+      'blogs.filter.all':       'All',
     },
 
     ar: {
@@ -97,27 +89,19 @@
       'gallery.title':            'صور ذكاء اصطناعي\nتُبهر النظر',
       'gallery.subtitle':         'كل صورة هنا أُنتجت باستخدام تقنية توليد الصور المتقدمة — لا كاميرات، لا صور مخزنة. مجرد توجيه إبداعي، ضبط دقيق، وذكاء اصطناعي يعمل معاً.',
       'gallery.filter.all':       'الكل',
-      'gallery.filter.portrait':  'بورتريه',
-      'gallery.filter.landscape': 'مناظر طبيعية',
-      'gallery.filter.concept':   'مفاهيمي',
       /* video studio */
       'video.label':            'استوديو الفيديو بالذكاء الاصطناعي',
       'video.title':            'مقاطع فيديو بالذكاء الاصطناعي\nتبدو حقيقية تماماً',
       'video.subtitle':         'مجموعة من مقاطع الفيديو المُنتجة بالذكاء الاصطناعي — بورتريهات حميمة، ولقطات سينمائية واسعة، وإعلانات تجارية، جميعها بالذكاء الاصطناعي.',
       'video.filter.all':       'الكل',
-      'video.filter.realistic': 'واقعي',
-      'video.filter.anime':     'أنمي',
-      'video.filter.marketing': 'تسويقي',
-      'video.filter.cinematic': 'سينمائي',
       /* smart systems */
       'systems.label':            'الأنظمة الذكية والمواقع الإلكترونية',
       'systems.title':            'منتجات رقمية ذكية\nمبنية من الصفر',
       'systems.subtitle':         'مواقع وأنظمة ذكية مصممة لتعمل فعلاً — لا لمجرد المظهر. مبنية بتقنيات حديثة ودمج الذكاء الاصطناعي واهتمام حقيقي بالتفاصيل.',
       'systems.filter.all':       'الكل',
-      'systems.filter.ai':        'أنظمة ذكاء اصطناعي',
-      'systems.filter.websites':  'مواقع إلكترونية',
-      'systems.filter.dashboards':'لوحات تحكم',
       'systems.modal.view':       'عرض المشروع ←',
+      /* blogs */
+      'blogs.filter.all':       'الكل',
     },
   };
 
@@ -152,6 +136,8 @@
     document.querySelectorAll('[data-lang]').forEach(function (btn) {
       btn.classList.toggle('lang-option--active', btn.getAttribute('data-lang') === code);
     });
+
+    document.dispatchEvent(new CustomEvent('langchange', { detail: { lang: code } }));
   }
 
   function injectStyles() {

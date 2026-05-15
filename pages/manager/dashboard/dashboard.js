@@ -1,9 +1,12 @@
 import { db } from '../../../shared/js/firebase-config.js';
 import { requireAuth, signOut } from '../../../shared/js/firebase-auth.js';
 import { collection, getDocs, deleteDoc, doc, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import {
+  seedIfEmpty, getCategories, createCategory, updateCategory, deleteCategory,
+  countItemsUsingCategory,
+} from '../../../shared/js/categories.js';
 
 const labels = { images: 'AI Images', videos: 'AI Videos', blogs: 'Blog Posts', systems: 'Systems' };
-const TAG_LABELS = { 'ai-systems': 'AI Systems', 'websites': 'Websites', 'dashboards': 'Dashboards' };
 
 const statEls = {
   images:  document.getElementById('statImages'),
@@ -35,6 +38,14 @@ const detailExtra   = document.getElementById('detailExtra');
 let data = { images: [], videos: [], blogs: [], systems: [] };
 let activeType = null;
 let pendingDelete = null;
+let tagLabelMap = { images: new Map(), videos: new Map(), blogs: new Map(), systems: new Map() };
+
+async function refreshTagLabelMaps() {
+  await Promise.all(['images','videos','blogs','systems'].map(async t => {
+    const cats = await getCategories(t, { forceRefresh: true });
+    tagLabelMap[t] = new Map(cats.map(c => [c.slug, (localStorage.getItem('lang') === 'ar' ? c.label_ar : c.label_en) || c.slug]));
+  }));
+}
 
 function extractYouTubeId(url) {
   const m = (url || '').match(/(?:v=|youtu\.be\/)([^&\n?#]+)/);
@@ -59,11 +70,13 @@ function buildCard(type, item) {
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
   </button>`;
 
+  const tagLabel = tagLabelMap[type]?.get(item.tag) || item.tag || '';
+
   if (type === 'blogs') {
     return `<div class="panel-item" style="cursor:pointer;">
       <img class="panel-item__img panel-item__img--wide" src="${img}" alt="${item.title}" loading="lazy" />
       <div class="panel-item__body">
-        <span class="panel-item__tag">${item.tag}</span>
+        <span class="panel-item__tag">${tagLabel}</span>
         <p class="panel-item__title">${item.title}</p>
         <p class="panel-item__meta">${item.summary || ''}</p>
       </div>
@@ -75,7 +88,7 @@ function buildCard(type, item) {
   return `<div class="panel-item" style="cursor:pointer;">
     <img class="panel-item__img${ratio}" src="${img}" alt="${item.title}" loading="lazy" />
     <div class="panel-item__body">
-      <span class="panel-item__tag">${item.tag}</span>
+      <span class="panel-item__tag">${tagLabel}</span>
       <p class="panel-item__title">${item.title}</p>
     </div>
     ${trashBtn}
@@ -96,7 +109,7 @@ function openDetailModal(type, item) {
     if (imgUrl) detailMedia.innerHTML = `<img src="${imgUrl}" alt="${item.title}" />`;
   }
 
-  const tagLabel = TAG_LABELS[item.tag] || item.tag || '';
+  const tagLabel = tagLabelMap[type]?.get(item.tag) || item.tag || '';
   detailTag.textContent   = tagLabel;
   detailTitle.textContent = item.title;
   detailDesc.textContent  = type === 'blogs' ? (item.summary || '') : (item.description || '');
@@ -199,17 +212,30 @@ document.querySelectorAll('.stat-card').forEach(card => {
 
 panelClose.addEventListener('click', closePanel);
 
+const delMsgEl = delModal.querySelector('.del-modal__msg');
+const DEFAULT_DEL_MSG = delMsgEl?.textContent || 'Delete this item? This cannot be undone.';
+
 delConfirm.addEventListener('click', async () => {
   if (!pendingDelete) return;
-  const { type, id } = pendingDelete;
   delConfirm.disabled = true;
   try {
-    await deleteDoc(doc(db, type, id));
-    data[type] = data[type].filter(item => item.id !== id);
-    pendingDelete = null;
-    delModal.hidden = true;
-    updateStats();
-    renderPanel(type);
+    if (pendingDelete.kind === 'category') {
+      await deleteCategory(pendingDelete.id);
+      pendingDelete = null;
+      delModal.hidden = true;
+      if (delMsgEl) delMsgEl.textContent = DEFAULT_DEL_MSG;
+      await refreshTagLabelMaps();
+      await renderCategoryList();
+      if (activeType) renderPanel(activeType);
+    } else {
+      const { type, id } = pendingDelete;
+      await deleteDoc(doc(db, type, id));
+      data[type] = data[type].filter(item => item.id !== id);
+      pendingDelete = null;
+      delModal.hidden = true;
+      updateStats();
+      renderPanel(type);
+    }
   } catch (err) {
     console.error('Delete failed', err);
   } finally {
@@ -217,18 +243,24 @@ delConfirm.addEventListener('click', async () => {
   }
 });
 
-delCancel.addEventListener('click', () => { delModal.hidden = true; pendingDelete = null; });
-delBackdrop.addEventListener('click', () => { delModal.hidden = true; pendingDelete = null; });
+function resetDelModal() {
+  delModal.hidden = true;
+  pendingDelete = null;
+  if (delMsgEl) delMsgEl.textContent = DEFAULT_DEL_MSG;
+}
+delCancel.addEventListener('click', resetDelModal);
+delBackdrop.addEventListener('click', resetDelModal);
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     if (detailModal.classList.contains('open')) { closeDetailModal(); return; }
-    delModal.hidden = true;
-    pendingDelete = null;
+    resetDelModal();
   }
 });
 
 async function loadAll() {
+  await seedIfEmpty();
+  await refreshTagLabelMaps();
   const types = ['images', 'videos', 'blogs', 'systems'];
   await Promise.all(types.map(async type => {
     const q = query(collection(db, type), orderBy('createdAt', 'desc'));
@@ -237,6 +269,154 @@ async function loadAll() {
   }));
   updateStats();
   if (activeType) renderPanel(activeType);
+  await initCategoriesSection();
+}
+
+/* ---------- CATEGORIES SECTION ---------- */
+
+const catTabs       = document.getElementById('catTabs');
+const catList       = document.getElementById('catList');
+const catAddForm    = document.getElementById('catAddForm');
+const catAddSlug    = document.getElementById('catAddSlug');
+const catAddEn      = document.getElementById('catAddEn');
+const catAddAr      = document.getElementById('catAddAr');
+const catError      = document.getElementById('catError');
+
+let activeCatType = 'images';
+let editingId = null;
+
+function showCatError(msg) {
+  if (!catError) return;
+  catError.textContent = msg;
+  catError.hidden = false;
+}
+
+function clearCatError() {
+  if (!catError) return;
+  catError.hidden = true;
+  catError.textContent = '';
+}
+
+async function renderCategoryList() {
+  const cats = await getCategories(activeCatType, { forceRefresh: true });
+  if (!catList) return;
+  if (cats.length === 0) {
+    catList.innerHTML = '<div class="cat-empty">No categories yet. Add one below.</div>';
+    return;
+  }
+  catList.innerHTML = cats.map(c => {
+    const editing = editingId === c.id;
+    if (editing) {
+      return `<div class="category-row" data-id="${c.id}">
+        <span class="cat-row__slug">${escapeHtml(c.slug)}</span>
+        <input class="cat-row__input" data-field="en" value="${escapeAttr(c.label_en || '')}" />
+        <input class="cat-row__input cat-row__label--ar" data-field="ar" dir="rtl" value="${escapeAttr(c.label_ar || '')}" />
+        <div class="cat-row__actions">
+          <button class="cat-row__btn cat-row__btn--save" data-action="save" aria-label="Save">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <button class="cat-row__btn" data-action="cancel" aria-label="Cancel">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>`;
+    }
+    return `<div class="category-row" data-id="${c.id}">
+      <span class="cat-row__slug">${escapeHtml(c.slug)}</span>
+      <span class="cat-row__label">${escapeHtml(c.label_en || '')}</span>
+      <span class="cat-row__label cat-row__label--ar">${escapeHtml(c.label_ar || '')}</span>
+      <div class="cat-row__actions">
+        <button class="cat-row__btn" data-action="edit" aria-label="Edit">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </button>
+        <button class="cat-row__btn cat-row__btn--danger" data-action="delete" aria-label="Delete">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+
+  catList.querySelectorAll('.category-row').forEach(row => {
+    const id = row.dataset.id;
+    row.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', () => handleRowAction(btn.dataset.action, id, row));
+    });
+  });
+}
+
+async function handleRowAction(action, id, row) {
+  clearCatError();
+  if (action === 'edit') {
+    editingId = id;
+    await renderCategoryList();
+  } else if (action === 'cancel') {
+    editingId = null;
+    await renderCategoryList();
+  } else if (action === 'save') {
+    const en = row.querySelector('[data-field="en"]').value.trim();
+    const ar = row.querySelector('[data-field="ar"]').value.trim();
+    if (!en || !ar) { showCatError('Both labels are required.'); return; }
+    try {
+      await updateCategory(id, { label_en: en, label_ar: ar });
+      editingId = null;
+      await refreshTagLabelMaps();
+      await renderCategoryList();
+      if (activeType) renderPanel(activeType);
+    } catch (err) {
+      showCatError(err.message || 'Update failed.');
+    }
+  } else if (action === 'delete') {
+    const cats = await getCategories(activeCatType);
+    const cat = cats.find(c => c.id === id);
+    if (!cat) return;
+    const count = await countItemsUsingCategory(activeCatType, cat.slug);
+    pendingDelete = { kind: 'category', id, type: activeCatType, slug: cat.slug };
+    if (delMsgEl) {
+      delMsgEl.textContent = count > 0
+        ? `${count} item${count !== 1 ? 's' : ''} use this category. Deleting will leave them with an unrecognized tag. Proceed?`
+        : DEFAULT_DEL_MSG;
+    }
+    delModal.hidden = false;
+  }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function escapeAttr(s) { return escapeHtml(s); }
+
+async function initCategoriesSection() {
+  if (!catTabs) return;
+  catTabs.querySelectorAll('.cat-tabs__btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      activeCatType = btn.dataset.catType;
+      editingId = null;
+      catTabs.querySelectorAll('.cat-tabs__btn').forEach(b => b.classList.remove('cat-tabs__btn--active'));
+      btn.classList.add('cat-tabs__btn--active');
+      clearCatError();
+      await renderCategoryList();
+    });
+  });
+  if (catAddForm) {
+    catAddForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearCatError();
+      const slug = catAddSlug.value.trim();
+      const en = catAddEn.value.trim();
+      const ar = catAddAr.value.trim();
+      try {
+        await createCategory(activeCatType, { slug, label_en: en, label_ar: ar });
+        catAddSlug.value = '';
+        catAddEn.value = '';
+        catAddAr.value = '';
+        await refreshTagLabelMaps();
+        await renderCategoryList();
+      } catch (err) {
+        showCatError(err.message || 'Failed to create category.');
+      }
+    });
+  }
+  await renderCategoryList();
 }
 
 document.getElementById('signOutBtn').addEventListener('click', signOut);

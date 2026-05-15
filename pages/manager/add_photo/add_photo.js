@@ -2,6 +2,7 @@ import { db } from '../../../shared/js/firebase-config.js';
 import { requireAuth, signOut } from '../../../shared/js/firebase-auth.js';
 import { uploadMedia } from '../../../shared/js/cloudinary.js';
 import { collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { seedIfEmpty, renderTagSelector } from '../../../shared/js/categories.js';
 
 const imageInput       = document.getElementById('imageInput');
 const imageUpload      = document.getElementById('imageUpload');
@@ -79,15 +80,8 @@ descInput.addEventListener('input', () => {
   descCount.textContent = `${descInput.value.length} / 200`;
 });
 
-// Tag selection
-tagSelector.querySelectorAll('.tag-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    tagSelector.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('tag-btn--selected'));
-    btn.classList.add('tag-btn--selected');
-    selectedTag.value = btn.dataset.tag;
-    tagSelector.classList.remove('invalid');
-  });
-});
+// Tag selection (populated from Firestore categories)
+seedIfEmpty().then(() => renderTagSelector(tagSelector, 'images', selectedTag));
 
 // Clear form
 clearBtn.addEventListener('click', () => {

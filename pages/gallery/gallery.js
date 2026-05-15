@@ -1,8 +1,9 @@
 import { db } from '../../shared/js/firebase-config.js';
 import { collection, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { getCategories, renderFilterButtons, labelOf } from '../../shared/js/categories.js';
 
 const galleryGrid   = document.getElementById('galleryGrid');
-const filterBtns    = document.querySelectorAll('.gallery-filters .filter-btn');
+const filtersEl     = document.querySelector('.gallery-filters');
 const lightbox      = document.getElementById('lightbox');
 const lightboxImg   = document.getElementById('lightboxImg');
 const lightboxTitle = document.getElementById('lightboxTitle');
@@ -12,8 +13,11 @@ const lightboxClose = document.getElementById('lightboxClose');
 
 let activeFilter = 'all';
 let items = [];
+let tagToLabel = new Map();
 
-const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+function tagLabel(slug) {
+  return tagToLabel.get(slug) || slug || '';
+}
 
 function buildItem(item) {
   return `<div class="gallery-item" data-category="${item.tag}" style="cursor:pointer;">
@@ -26,7 +30,7 @@ function buildItem(item) {
       </div>
     </div>
     <div class="gallery-item__info">
-      <span class="gallery-item__tag">${cap(item.tag)}</span>
+      <span class="gallery-item__tag">${tagLabel(item.tag)}</span>
       <h3 class="gallery-item__title">${item.title}</h3>
     </div>
   </div>`;
@@ -39,19 +43,16 @@ function applyFilter(filter) {
   });
 }
 
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterBtns.forEach(b => b.classList.remove('filter-btn--active'));
-    btn.classList.add('filter-btn--active');
-    applyFilter(btn.dataset.filter);
-  });
-});
+async function refreshTagToLabel() {
+  const cats = await getCategories('images');
+  tagToLabel = new Map(cats.map(c => [c.slug, labelOf(c)]));
+}
 
 function openLightbox(item) {
   lightboxImg.src = item.imageUrl;
   lightboxImg.alt = item.title;
   lightboxTitle.textContent = item.title;
-  lightboxTag.textContent = cap(item.tag);
+  lightboxTag.textContent = tagLabel(item.tag);
   lightboxDesc.textContent = item.description || '';
   lightbox.classList.add('open');
   lightbox.setAttribute('aria-hidden', 'false');
@@ -74,7 +75,18 @@ lightboxClose.addEventListener('click', closeLightbox);
 lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
+document.addEventListener('langchange', async () => {
+  await refreshTagToLabel();
+  if (items.length) {
+    galleryGrid.innerHTML = items.map(buildItem).join('');
+    applyFilter(activeFilter);
+    bindCards();
+  }
+});
+
 async function loadImages() {
+  await refreshTagToLabel();
+  await renderFilterButtons(filtersEl, 'images', { onChange: applyFilter, allKey: 'gallery.filter.all' });
   const snap = await getDocs(query(collection(db, 'images'), orderBy('createdAt', 'desc')));
   if (snap.empty) {
     galleryGrid.innerHTML = '<p class="gallery-empty">No images yet.</p>';

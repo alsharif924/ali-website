@@ -1,8 +1,9 @@
 import { db } from '../../shared/js/firebase-config.js';
 import { collection, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { getCategories, renderFilterButtons, labelOf } from '../../shared/js/categories.js';
 
 const videoGrid     = document.getElementById('videoGrid');
-const filterBtns    = document.querySelectorAll('.video-filters .filter-btn');
+const filtersEl     = document.querySelector('.video-filters');
 const modal         = document.getElementById('videoModal');
 const modalTitle    = document.getElementById('modalTitle');
 const modalTag      = document.getElementById('modalTag');
@@ -13,8 +14,11 @@ const modalBackdrop = document.getElementById('modalBackdrop');
 
 let activeFilter = 'all';
 let items = [];
+let tagToLabel = new Map();
 
-const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+function tagLabel(slug) {
+  return tagToLabel.get(slug) || slug || '';
+}
 
 function extractYouTubeId(url) {
   const m = url.match(/(?:v=|youtu\.be\/)([^&\n?#]+)/);
@@ -30,7 +34,7 @@ function buildCard(item) {
       </button>
     </div>
     <div class="video-card__info">
-      <span class="video-card__tag">${cap(item.tag)}</span>
+      <span class="video-card__tag">${tagLabel(item.tag)}</span>
       <h3 class="video-card__title">${item.title}</h3>
       <p class="video-card__meta">${item.description || ''}</p>
     </div>
@@ -44,17 +48,14 @@ function applyFilter(filter) {
   });
 }
 
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterBtns.forEach(b => b.classList.remove('filter-btn--active'));
-    btn.classList.add('filter-btn--active');
-    applyFilter(btn.dataset.filter);
-  });
-});
+async function refreshTagToLabel() {
+  const cats = await getCategories('videos');
+  tagToLabel = new Map(cats.map(c => [c.slug, labelOf(c)]));
+}
 
 function openModal(item) {
   modalTitle.textContent = item.title;
-  modalTag.textContent   = cap(item.tag);
+  modalTag.textContent   = tagLabel(item.tag);
   modalDesc.textContent  = item.description || '';
   const videoUrl = item.videoUrl || '';
   if (videoUrl) {
@@ -99,7 +100,18 @@ modalClose.addEventListener('click', closeModal);
 modalBackdrop.addEventListener('click', closeModal);
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
+document.addEventListener('langchange', async () => {
+  await refreshTagToLabel();
+  if (items.length) {
+    videoGrid.innerHTML = items.map(buildCard).join('');
+    applyFilter(activeFilter);
+    bindCards();
+  }
+});
+
 async function loadVideos() {
+  await refreshTagToLabel();
+  await renderFilterButtons(filtersEl, 'videos', { onChange: applyFilter, allKey: 'video.filter.all' });
   const snap = await getDocs(query(collection(db, 'videos'), orderBy('createdAt', 'desc')));
   if (snap.empty) {
     videoGrid.innerHTML = '<p class="gallery-empty">No videos yet.</p>';
