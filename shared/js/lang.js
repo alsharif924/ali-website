@@ -119,71 +119,11 @@
       'systems.filter.dashboards':'لوحات تحكم',
       'systems.modal.view':       'عرض المشروع ←',
     },
-
-    he: {
-      /* nav */
-      'nav.services': 'שירותים',
-      'nav.about':    'אודות',
-      'nav.blog':     'בלוג',
-      'nav.contact':  'צור קשר',
-      /* footer */
-      'footer.tagline': 'יוצרים את הוויזואלים של מחר עם ה-AI של היום.',
-      'footer.copy':    '© 2026 עלי אל-שריף. כל הזכויות שמורות.',
-      'footer.terms':   'תנאי שימוש',
-      /* home – hero */
-      'home.hero.title':    'הופכים רעיונות\nלמציאות מונעת בינה מלאכותית',
-      'home.hero.subtitle': 'אני יוצר תמונות AI, סרטונים קולנועיים ואתרים חכמים —\nעוזר למותגים ולאנשים פרטיים לבטא את החזון שלהם באמצעות בינה מלאכותית.',
-      /* home – services */
-      'home.services.title':    'השירותים שלנו',
-      'home.services.subtitle': 'פתרונות AI חדשניים המתוכננים לדיוק, מהירות ויכולת הרחבה.',
-      'home.service.image.title':   'סטודיו תמונות AI',
-      'home.service.image.text':    'יצירת תמונות מדהימות בנאמנות גבוהה עם מודלי AI מתקדמים שאומנו על סגנונות אמנותיים ופוטוריאליסטיים.',
-      'home.service.video.title':   'סטודיו וידאו AI',
-      'home.service.video.text':    'הפקת סרטוני AI קולנועיים עם תנועה חלקה, שליטה מדויקת ואיכות פלט ברמה מקצועית.',
-      'home.service.systems.title': 'מערכות חכמות ואתרים',
-      'home.service.systems.text':  'בניית מערכות ואתרים חכמים מונעי AI שמאפשרים אוטומציה של תהליכים וחוויות משתמש מעולות.',
-      /* home – about */
-      'home.about.title': 'אודות עלי אל-שריף',
-      'home.about.p1':    'אני עלי אל-שריף — איש מקצוע יצירתי בתחום ה-AI, נלהב מהצומת שבין טכנולוגיה לסיפור חזותי. אני עובד עם מותגים, יוצרים ועסקים כדי להחיות רעיונות נועזים באמצעות כלי ה-AI הגנרטיבי המתקדמים ביותר.',
-      'home.about.p2':    'בין אם מדובר בפורטרט פוטוריאליסטי, רצף וידאו קולנועי, או אתר חכם מותאם אישית — אני מתמקד באיכות, מהירות ודיוק יצירתי. כל פרויקט נבנה בכוונה, לא רק באוטומציה.',
-      /* home – insights */
-      'home.insights.title':    'תובנות אחרונות',
-      'home.insights.subtitle': 'מחשבות על יצירתיות AI, תהליכי עבודה ומה שעתיד לבוא.',
-      /* home – contact */
-      'home.contact.title':    'צור קשר',
-      'home.contact.subtitle': 'יש לך פרויקט בראש? אשמח לשמוע עליו. פנה אליי בוואטסאפ, אינסטגרם או פייסבוק — אני מגיב במהירות.',
-      /* gallery */
-      'gallery.label':            'סטודיו תמונות AI',
-      'gallery.title':            'תמונות AI\nשמקפיאות אותך במקום',
-      'gallery.subtitle':         'כל תמונה כאן הופקה באמצעות יצירת תמונות AI מתקדמת — אין מצלמות, אין תמונות סטוק. רק כיוון יצירתי, פרומפטינג מדויק ובינה מלאכותית שעובדת ביחד.',
-      'gallery.filter.all':       'הכל',
-      'gallery.filter.portrait':  'פורטרט',
-      'gallery.filter.landscape': 'נוף',
-      'gallery.filter.concept':   'קונספט',
-      /* video studio */
-      'video.label':            'סטודיו וידאו AI',
-      'video.title':            'סרטוני AI\nשמרגישים ממש אמיתיים',
-      'video.subtitle':         'אוסף סרטוני AI שנבנו עם כיוון יצירתי מדויק — פורטרטים אינטימיים, צילומי סרטים רחבים וסרטוני פרסום, הכל הופק לחלוטין באמצעות AI.',
-      'video.filter.all':       'הכל',
-      'video.filter.realistic': 'ריאליסטי',
-      'video.filter.anime':     'אנימה',
-      'video.filter.marketing': 'שיווקי',
-      'video.filter.cinematic': 'קולנועי',
-      /* smart systems */
-      'systems.label':            'מערכות חכמות ואתרים',
-      'systems.title':            'מוצרים דיגיטליים חכמים,\nבנויים מאפס',
-      'systems.subtitle':         'אתרים ומערכות חכמות שמתוכננות לעבוד בשבילך — לא רק להיראות טוב. נבנו עם טכנולוגיה מודרנית, שילוב AI ותשומת לב אמיתית לפרטים.',
-      'systems.filter.all':       'הכל',
-      'systems.filter.ai':        'מערכות AI',
-      'systems.filter.websites':  'אתרים',
-      'systems.filter.dashboards':'דשבורדים',
-      'systems.modal.view':       '← צפה בפרויקט',
-    },
   };
 
-  var LANGS  = ['en', 'ar', 'he'];
-  var LABELS = { en: 'EN', ar: 'عر', he: 'עב' };
-  var IS_RTL = { ar: true, he: true };
+  var LANGS  = ['en', 'ar'];
+  var LABELS = { en: 'EN', ar: 'عر' };
+  var IS_RTL = { ar: true };
 
   function currentLang() {
     var stored = localStorage.getItem('lang');
@@ -254,7 +194,6 @@
     '<ul class="lang-dropdown">' +
       '<li><button data-lang="en">English</button></li>' +
       '<li><button data-lang="ar">العربية</button></li>' +
-      '<li><button data-lang="he">עברית</button></li>' +
     '</ul>';
 
   function initSwitcher(sw) {
