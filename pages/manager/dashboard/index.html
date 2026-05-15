@@ -182,6 +182,58 @@
         </div>
       </section>
 
+      <!-- COVER PHOTOS SECTION -->
+      <section class="cover-photos-section" id="coverPhotosSection">
+        <div class="cover-photos-section__header">
+          <h2 class="cover-photos-section__title">Cover Photos</h2>
+          <p class="cover-photos-section__desc">Update the home page service card images.</p>
+        </div>
+        <div class="cover-photos__grid">
+          <div class="cover-card" data-field="cover_image">
+            <div class="cover-card__preview">
+              <img id="coverPreview_image" alt="AI Image Studio" />
+            </div>
+            <div class="cover-card__body">
+              <span class="cover-card__label">AI Image Studio</span>
+              <input type="file" accept="image/*" hidden id="coverInput_image" data-field="cover_image" />
+              <button class="btn btn--primary cover-card__btn" type="button" data-target="cover_image">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+                Upload
+              </button>
+            </div>
+          </div>
+
+          <div class="cover-card" data-field="cover_video">
+            <div class="cover-card__preview">
+              <img id="coverPreview_video" alt="AI Video Studio" />
+            </div>
+            <div class="cover-card__body">
+              <span class="cover-card__label">AI Video Studio</span>
+              <input type="file" accept="image/*" hidden id="coverInput_video" data-field="cover_video" />
+              <button class="btn btn--primary cover-card__btn" type="button" data-target="cover_video">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+                Upload
+              </button>
+            </div>
+          </div>
+
+          <div class="cover-card" data-field="cover_systems">
+            <div class="cover-card__preview">
+              <img id="coverPreview_systems" alt="Smart Systems & Websites" />
+            </div>
+            <div class="cover-card__body">
+              <span class="cover-card__label">Smart Systems &amp; Websites</span>
+              <input type="file" accept="image/*" hidden id="coverInput_systems" data-field="cover_systems" />
+              <button class="btn btn--primary cover-card__btn" type="button" data-target="cover_systems">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+                Upload
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="cover-toast" id="coverToast" hidden></div>
+      </section>
+
       <div class="quick-actions">
         <h2 class="quick-actions__title">Quick Actions</h2>
         <div class="quick-actions__grid">

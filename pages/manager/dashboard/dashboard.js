@@ -5,6 +5,8 @@ import {
   seedIfEmpty, getCategories, createCategory, updateCategory, deleteCategory,
   countItemsUsingCategory,
 } from '../../../shared/js/categories.js';
+import { getHomeSettings, setHomeCover } from '../../../shared/js/settings.js';
+import { uploadMedia } from '../../../shared/js/cloudinary.js';
 
 const labels = { images: 'AI Images', videos: 'AI Videos', blogs: 'Blog Posts', systems: 'Systems' };
 
@@ -270,6 +272,7 @@ async function loadAll() {
   updateStats();
   if (activeType) renderPanel(activeType);
   await initCategoriesSection();
+  await initCoverPhotosSection();
 }
 
 /* ---------- CATEGORIES SECTION ---------- */
@@ -417,6 +420,70 @@ async function initCategoriesSection() {
     });
   }
   await renderCategoryList();
+}
+
+/* ---------- COVER PHOTOS SECTION ---------- */
+
+const COVER_PLACEHOLDERS = {
+  cover_image:   '/assets/images/placeholders/image_thumnail.jpg',
+  cover_video:   '/assets/images/placeholders/video_thumnail.jpg',
+  cover_systems: '/assets/images/placeholders/system_thumnail.jpg',
+};
+const COVER_FIELDS = ['cover_image', 'cover_video', 'cover_systems'];
+const coverToast = document.getElementById('coverToast');
+let coverToastTimer = null;
+
+function showCoverToast(msg, type) {
+  if (!coverToast) return;
+  coverToast.textContent = msg;
+  coverToast.className = `cover-toast cover-toast--${type}`;
+  coverToast.hidden = false;
+  clearTimeout(coverToastTimer);
+  coverToastTimer = setTimeout(() => { coverToast.hidden = true; }, 3000);
+}
+
+async function initCoverPhotosSection() {
+  const settings = await getHomeSettings({ forceRefresh: true });
+  COVER_FIELDS.forEach(field => {
+    const key = field.replace('cover_', '');
+    const previewEl = document.getElementById(`coverPreview_${key}`);
+    const inputEl = document.getElementById(`coverInput_${key}`);
+    const btnEl = document.querySelector(`.cover-card__btn[data-target="${field}"]`);
+    if (!previewEl || !inputEl || !btnEl) return;
+
+    previewEl.src = settings[field] || COVER_PLACEHOLDERS[field];
+
+    btnEl.addEventListener('click', () => inputEl.click());
+    inputEl.addEventListener('change', async () => {
+      const file = inputEl.files[0];
+      if (!file) return;
+      if (file.size > 10 * 1024 * 1024) {
+        showCoverToast('Image exceeds 10 MB.', 'error');
+        inputEl.value = '';
+        return;
+      }
+      const prevSrc = previewEl.src;
+      const previewUrl = URL.createObjectURL(file);
+      previewEl.src = previewUrl;
+      const origLabel = btnEl.innerHTML;
+      btnEl.disabled = true;
+      btnEl.textContent = 'Uploading…';
+      try {
+        const url = await uploadMedia(file, 'image');
+        await setHomeCover(field, url);
+        previewEl.src = url;
+        showCoverToast('Saved!', 'success');
+      } catch (err) {
+        console.error('Cover upload failed', err);
+        previewEl.src = prevSrc;
+        showCoverToast('Upload failed. Try again.', 'error');
+      } finally {
+        btnEl.disabled = false;
+        btnEl.innerHTML = origLabel;
+        inputEl.value = '';
+      }
+    });
+  });
 }
 
 document.getElementById('signOutBtn').addEventListener('click', signOut);

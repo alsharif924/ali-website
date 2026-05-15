@@ -1,6 +1,22 @@
 import { db } from '../../shared/js/firebase-config.js';
 import { collection, getDocs, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 import { getCategories, renderFilterButtons, labelOf } from '../../shared/js/categories.js';
+import { getHomeSettings } from '../../shared/js/settings.js';
+
+getHomeSettings().then(s => {
+  if (s.cover_image) {
+    const el = document.getElementById('serviceCoverImage');
+    if (el) el.src = s.cover_image;
+  }
+  if (s.cover_video) {
+    const el = document.getElementById('serviceCoverVideo');
+    if (el) el.src = s.cover_video;
+  }
+  if (s.cover_systems) {
+    const el = document.getElementById('serviceCoverSystems');
+    if (el) el.src = s.cover_systems;
+  }
+});
 
 const track   = document.getElementById('insightsTrack');
 const prevBtn = document.getElementById('prevBtn');
