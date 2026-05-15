@@ -56,7 +56,9 @@ body { font-family: var(--font); background: var(--color-bg); color: var(--color
 
 .video-card__thumb { position:relative; overflow:hidden; aspect-ratio:16/9; background:#000; }
 .video-card--landscape .video-card__thumb { aspect-ratio:16/9; }
-.video-card--portrait  .video-card__thumb { aspect-ratio:9/16; }
+.video-card--portrait  .video-card__thumb { aspect-ratio:9/16; max-height:480px; width:auto; max-width:100%; margin:0 auto; }
+.video-card--portrait { display:flex; flex-direction:column; align-items:center; }
+.video-card--portrait .video-card__info { width:100%; }
 .video-card__thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s ease,opacity 0.4s ease; }
 .video-card:hover .video-card__thumb img { transform:scale(1.04); opacity:.85; }
 
