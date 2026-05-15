@@ -26,7 +26,8 @@ function extractYouTubeId(url) {
 }
 
 function buildCard(item) {
-  return `<div class="video-card" data-category="${item.tag}" style="cursor:pointer;">
+  const orient = item.orientation === 'portrait' ? 'portrait' : 'landscape';
+  return `<div class="video-card video-card--${orient}" data-category="${item.tag}" style="cursor:pointer;">
     <div class="video-card__thumb">
       <img src="${item.thumbnailUrl}" alt="${item.title}" loading="lazy" />
       <button class="video-card__play-btn" tabindex="-1" aria-hidden="true">
@@ -57,6 +58,8 @@ function openModal(item) {
   modalTitle.textContent = item.title;
   modalTag.textContent   = tagLabel(item.tag);
   modalDesc.textContent  = item.description || '';
+  const orient = item.orientation === 'portrait' ? 'portrait' : 'landscape';
+  modalPlayer.className = `modal__player modal__player--${orient}`;
   const videoUrl = item.videoUrl || '';
   if (videoUrl) {
     const ytId = extractYouTubeId(videoUrl);
@@ -65,15 +68,9 @@ function openModal(item) {
         src="https://www.youtube.com/embed/${ytId}?autoplay=1"
         allow="autoplay; encrypted-media; fullscreen"
         allowfullscreen
-        style="width:100%;aspect-ratio:16/9;border:none;border-radius:10px;"
       ></iframe>`;
     } else {
-      modalPlayer.innerHTML = `<video
-        src="${videoUrl}"
-        controls
-        autoplay
-        style="width:100%;aspect-ratio:16/9;border-radius:10px;background:#000;"
-      ></video>`;
+      modalPlayer.innerHTML = `<video src="${videoUrl}" controls autoplay></video>`;
     }
   } else {
     modalPlayer.innerHTML = `<p class="modal__player-label">No video source available.</p>`;

@@ -109,6 +109,7 @@ body { font-family: var(--font); background: var(--color-bg); color: var(--color
 .panel-item__img { width:100%; aspect-ratio:3/4; object-fit:cover; display:block; }
 .panel-item__img--wide { aspect-ratio:16/9; }
 .panel-item__img--land { aspect-ratio:4/3; }
+.panel-item__img--portrait { aspect-ratio:9/16; }
 
 .panel-item__body { padding:10px 12px 12px; }
 .panel-item__tag { font-size:.6rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--color-blue); display:block; margin-bottom:3px; }

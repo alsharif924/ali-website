@@ -55,6 +55,8 @@ body { font-family: var(--font); background: var(--color-bg); color: var(--color
 .video-card.hidden { display:none; }
 
 .video-card__thumb { position:relative; overflow:hidden; aspect-ratio:16/9; background:#000; }
+.video-card--landscape .video-card__thumb { aspect-ratio:16/9; }
+.video-card--portrait  .video-card__thumb { aspect-ratio:9/16; }
 .video-card__thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s ease,opacity 0.4s ease; }
 .video-card:hover .video-card__thumb img { transform:scale(1.04); opacity:.85; }
 
@@ -76,7 +78,11 @@ body { font-family: var(--font); background: var(--color-bg); color: var(--color
 .modal__box { position:relative; background:var(--color-navy); border-radius:var(--radius-lg); padding:32px; max-width:640px; width:90%; text-align:center; }
 .modal__close { position:absolute; top:14px; right:16px; width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background var(--transition); }
 .modal__close:hover { background:rgba(255,255,255,.15); }
-.modal__player { background:rgba(255,255,255,.05); border-radius:var(--radius-md); aspect-ratio:16/9; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; color:#fff; margin-bottom:16px; }
+.modal__player { background:rgba(255,255,255,.05); border-radius:var(--radius-md); aspect-ratio:16/9; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; color:#fff; margin-bottom:16px; overflow:hidden; }
+.modal__player iframe,
+.modal__player video { width:100%; height:100%; border:0; display:block; background:#000; }
+.modal__player--landscape { aspect-ratio:16/9; max-width:100%; width:100%; }
+.modal__player--portrait { aspect-ratio:9/16; max-height:72vh; width:auto; margin-left:auto; margin-right:auto; }
 .modal__player-label { font-size:.82rem; color:rgba(255,255,255,.4); }
 .modal__title { font-size:.95rem; font-weight:600; color:rgba(255,255,255,.85); }
 

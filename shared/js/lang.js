@@ -50,6 +50,10 @@
       'systems.modal.view':       'View Project →',
       /* blogs */
       'blogs.filter.all':       'All',
+      /* form */
+      'form.orientation':           'Orientation',
+      'form.orientation.landscape': 'Landscape',
+      'form.orientation.portrait':  'Portrait',
     },
 
     ar: {
@@ -102,6 +106,10 @@
       'systems.modal.view':       'عرض المشروع ←',
       /* blogs */
       'blogs.filter.all':       'الكل',
+      /* form */
+      'form.orientation':           'الاتجاه',
+      'form.orientation.landscape': 'أفقي',
+      'form.orientation.portrait':  'عمودي',
     },
   };
 

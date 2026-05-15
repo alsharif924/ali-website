@@ -21,9 +21,26 @@ const descInput   = document.getElementById('videoDesc');
 const descCount   = document.getElementById('descCount');
 const tagSelector = document.getElementById('tagSelector');
 const selectedTag = document.getElementById('selectedTag');
+const orientationSelector = document.getElementById('orientationSelector');
+const selectedOrientation = document.getElementById('selectedOrientation');
+const DEFAULT_ORIENTATION = 'landscape';
 const clearBtn    = document.getElementById('clearBtn');
 const videoForm   = document.getElementById('videoForm');
 const formToast   = document.getElementById('formToast');
+
+function setOrientation(value) {
+  selectedOrientation.value = value;
+  orientationSelector.querySelectorAll('.tag-btn').forEach(b => {
+    b.classList.toggle('tag-btn--selected', b.dataset.orientation === value);
+  });
+  orientationSelector.classList.remove('invalid');
+}
+
+orientationSelector.querySelectorAll('.tag-btn').forEach(btn => {
+  btn.addEventListener('click', () => setOrientation(btn.dataset.orientation));
+});
+
+setOrientation(DEFAULT_ORIENTATION);
 const sourceTabs  = document.getElementById('sourceTabs');
 const panelUrl    = document.getElementById('panelUrl');
 const panelFile   = document.getElementById('panelFile');
@@ -126,6 +143,7 @@ clearBtn.addEventListener('click', () => {
   descCount.textContent = '0 / 200';
   selectedTag.value = '';
   tagSelector.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('tag-btn--selected'));
+  setOrientation(DEFAULT_ORIENTATION);
   thumbInput.value = '';
   thumbPreview.src = '';
   thumbPreview.classList.remove('visible');
@@ -167,6 +185,7 @@ videoForm.addEventListener('submit', async (e) => {
     await addDoc(collection(db, 'videos'), {
       title:        titleInput.value.trim(),
       tag:          selectedTag.value,
+      orientation:  selectedOrientation.value || DEFAULT_ORIENTATION,
       description:  descInput.value.trim(),
       thumbnailUrl,
       videoUrl,
@@ -202,6 +221,9 @@ function validate() {
 
   if (!selectedTag.value) { tagSelector.classList.add('invalid'); valid = false; }
   else tagSelector.classList.remove('invalid');
+
+  if (!selectedOrientation.value) { orientationSelector.classList.add('invalid'); valid = false; }
+  else orientationSelector.classList.remove('invalid');
 
   if (!descInput.value.trim()) { descInput.classList.add('invalid'); valid = false; }
   else descInput.classList.remove('invalid');

@@ -86,7 +86,15 @@ function buildCard(type, item) {
     </div>`;
   }
 
-  const ratio = type === 'images' ? '' : ' panel-item__img--wide';
+  let ratio;
+  if (type === 'images') {
+    ratio = (item.orientation === 'landscape') ? ' panel-item__img--land' : '';
+  } else if (type === 'videos') {
+    ratio = (item.orientation === 'portrait') ? ' panel-item__img--portrait' : ' panel-item__img--wide';
+  } else {
+    ratio = ' panel-item__img--wide';
+  }
+
   return `<div class="panel-item" style="cursor:pointer;">
     <img class="panel-item__img${ratio}" src="${img}" alt="${item.title}" loading="lazy" />
     <div class="panel-item__body">

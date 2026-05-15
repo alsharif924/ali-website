@@ -17,9 +17,26 @@ const descInput   = document.getElementById('photoDesc');
 const descCount   = document.getElementById('descCount');
 const tagSelector = document.getElementById('tagSelector');
 const selectedTag = document.getElementById('selectedTag');
+const orientationSelector = document.getElementById('orientationSelector');
+const selectedOrientation = document.getElementById('selectedOrientation');
+const DEFAULT_ORIENTATION = 'portrait';
 const clearBtn    = document.getElementById('clearBtn');
 const photoForm   = document.getElementById('photoForm');
 const formToast   = document.getElementById('formToast');
+
+function setOrientation(value) {
+  selectedOrientation.value = value;
+  orientationSelector.querySelectorAll('.tag-btn').forEach(b => {
+    b.classList.toggle('tag-btn--selected', b.dataset.orientation === value);
+  });
+  orientationSelector.classList.remove('invalid');
+}
+
+orientationSelector.querySelectorAll('.tag-btn').forEach(btn => {
+  btn.addEventListener('click', () => setOrientation(btn.dataset.orientation));
+});
+
+setOrientation(DEFAULT_ORIENTATION);
 
 // Click to upload
 imageUpload.addEventListener('click', (e) => {
@@ -90,6 +107,7 @@ clearBtn.addEventListener('click', () => {
   descCount.textContent = '0 / 200';
   selectedTag.value = '';
   tagSelector.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('tag-btn--selected'));
+  setOrientation(DEFAULT_ORIENTATION);
   imageInput.value = '';
   imagePreview.src = '';
   imagePreview.classList.remove('visible');
@@ -117,6 +135,7 @@ photoForm.addEventListener('submit', async (e) => {
     await addDoc(collection(db, 'images'), {
       title:       titleInput.value.trim(),
       tag:         selectedTag.value,
+      orientation: selectedOrientation.value || DEFAULT_ORIENTATION,
       description: descInput.value.trim(),
       imageUrl,
       createdAt:   serverTimestamp(),
@@ -154,6 +173,13 @@ function validate() {
     valid = false;
   } else {
     tagSelector.classList.remove('invalid');
+  }
+
+  if (!selectedOrientation.value) {
+    orientationSelector.classList.add('invalid');
+    valid = false;
+  } else {
+    orientationSelector.classList.remove('invalid');
   }
 
   if (!valid) showToast('Please fill in all required fields.', 'error');

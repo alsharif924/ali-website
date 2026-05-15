@@ -20,7 +20,8 @@ function tagLabel(slug) {
 }
 
 function buildItem(item) {
-  return `<div class="gallery-item" data-category="${item.tag}" style="cursor:pointer;">
+  const orient = item.orientation === 'landscape' ? 'landscape' : 'portrait';
+  return `<div class="gallery-item gallery-item--${orient}" data-category="${item.tag}" style="cursor:pointer;">
     <div class="gallery-item__img-wrap">
       <img src="${item.imageUrl}" alt="${item.title}" loading="lazy" />
       <div class="gallery-item__overlay">
