@@ -27,10 +27,18 @@ function extractYouTubeId(url) {
 
 const FALLBACK_VIDEO_THUMB = '/assets/images/placeholders/video_thumnail.jpg';
 
+function cloudinaryFirstFrame(url) {
+  if (!url || !url.includes('cloudinary.com') || !url.includes('/video/upload/')) return null;
+  return url.replace(/\.(mp4|mov|webm|m4v|avi|mkv|3gp|ogv|wmv|flv)(\?.*)?$/i, '.jpg');
+}
+
 function pickThumb(item) {
   if (item.thumbnailUrl) return item.thumbnailUrl;
-  const ytId = extractYouTubeId(item.videoUrl);
+  const url = item.videoUrl || '';
+  const ytId = extractYouTubeId(url);
   if (ytId) return `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
+  const cloudFrame = cloudinaryFirstFrame(url);
+  if (cloudFrame) return cloudFrame;
   return FALLBACK_VIDEO_THUMB;
 }
 
