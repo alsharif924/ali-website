@@ -96,13 +96,13 @@
 
         <!-- THUMBNAIL -->
         <div class="form-section">
-          <label class="form-label">Thumbnail <span class="required">*</span></label>
+          <label class="form-label">Thumbnail <span class="optional">(optional)</span></label>
           <div class="thumb-upload" id="thumbUpload">
             <input type="file" id="thumbInput" accept="image/*" hidden />
             <div class="thumb-upload__placeholder" id="thumbPlaceholder">
               <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
               <span>Click to upload thumbnail</span>
-              <span class="thumb-upload__hint">JPG, PNG, WEBP — 16:9, up to 10 MB</span>
+              <span class="thumb-upload__hint">Optional — auto-derived from YouTube if not provided. Up to 10 MB.</span>
             </div>
             <img class="thumb-upload__preview" id="thumbPreview" alt="Thumbnail preview" />
             <button type="button" class="thumb-upload__remove" id="thumbRemove" hidden>

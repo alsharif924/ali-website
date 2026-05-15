@@ -173,7 +173,9 @@ videoForm.addEventListener('submit', async (e) => {
   submitBtn.textContent = 'Uploading…';
 
   try {
-    const thumbnailUrl = await uploadMedia(thumbInput.files[0], 'image');
+    const thumbnailUrl = thumbInput.files[0]
+      ? await uploadMedia(thumbInput.files[0], 'image')
+      : '';
 
     let videoUrl = '';
     if (activeSource === 'url') {
@@ -205,8 +207,7 @@ videoForm.addEventListener('submit', async (e) => {
 function validate() {
   let valid = true;
 
-  if (!thumbInput.files[0]) { thumbUpload.classList.add('invalid'); valid = false; }
-  else thumbUpload.classList.remove('invalid');
+  thumbUpload.classList.remove('invalid');
 
   if (activeSource === 'url') {
     if (!videoUrlInput.value.trim()) { videoUrlInput.classList.add('invalid'); valid = false; }

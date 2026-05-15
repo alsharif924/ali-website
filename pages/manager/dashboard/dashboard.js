@@ -54,6 +54,15 @@ function extractYouTubeId(url) {
   return m ? m[1] : null;
 }
 
+const FALLBACK_VIDEO_THUMB = '/assets/images/placeholders/video_thumnail.jpg';
+
+function pickVideoThumb(item) {
+  if (item.thumbnailUrl) return item.thumbnailUrl;
+  const ytId = extractYouTubeId(item.videoUrl);
+  if (ytId) return `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
+  return FALLBACK_VIDEO_THUMB;
+}
+
 function updateStats() {
   Object.keys(statEls).forEach(type => {
     statEls[type].textContent = data[type].length;
@@ -62,7 +71,7 @@ function updateStats() {
 
 function getImg(type, item) {
   if (type === 'images') return item.imageUrl || '';
-  if (type === 'videos') return item.thumbnailUrl || '';
+  if (type === 'videos') return pickVideoThumb(item);
   return item.coverUrl || '';
 }
 

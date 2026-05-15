@@ -74,6 +74,7 @@ body { font-family: var(--font); background: var(--color-bg); color: var(--color
 .form-row { display:flex; gap:20px; align-items:flex-start; }
 .form-label { font-size:.82rem; font-weight:600; color:var(--color-navy); }
 .required { color:var(--color-blue); }
+.optional { color:var(--color-muted); font-size:.78rem; font-weight:400; margin-left:4px; }
 
 /* THUMBNAIL UPLOAD */
 .thumb-upload { position:relative; border:2px dashed var(--color-border); border-radius:var(--radius-md); overflow:hidden; cursor:pointer; aspect-ratio:16/9; background:#000; transition:border-color var(--transition); }

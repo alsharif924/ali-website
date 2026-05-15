@@ -21,15 +21,24 @@ function tagLabel(slug) {
 }
 
 function extractYouTubeId(url) {
-  const m = url.match(/(?:v=|youtu\.be\/)([^&\n?#]+)/);
+  const m = (url || '').match(/(?:v=|youtu\.be\/)([^&\n?#]+)/);
   return m ? m[1] : null;
+}
+
+const FALLBACK_VIDEO_THUMB = '/assets/images/placeholders/video_thumnail.jpg';
+
+function pickThumb(item) {
+  if (item.thumbnailUrl) return item.thumbnailUrl;
+  const ytId = extractYouTubeId(item.videoUrl);
+  if (ytId) return `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
+  return FALLBACK_VIDEO_THUMB;
 }
 
 function buildCard(item) {
   const orient = item.orientation === 'portrait' ? 'portrait' : 'landscape';
   return `<div class="video-card video-card--${orient}" data-category="${item.tag}" style="cursor:pointer;">
     <div class="video-card__thumb">
-      <img src="${item.thumbnailUrl}" alt="${item.title}" loading="lazy" />
+      <img src="${pickThumb(item)}" alt="${item.title}" loading="lazy" />
       <button class="video-card__play-btn" tabindex="-1" aria-hidden="true">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
       </button>
